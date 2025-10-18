@@ -1,20 +1,20 @@
 [
   {
     "id": "p1",
-    "name": "Classic White T-Shirt",
-    "category": "tops",
+    "name": "Classic Red skirt",
+    "category": "",
     "price": 19.99,
-    "color": "white",
+    "color": "red",
     "description": "A timeless classic white t-shirt made from 100% organic cotton.",
-    "image": "https://example.com/products/p1.jpg"
+    "image": "https://sixdo.vn/images/products/2025/original/_1744433736_DSC2705_1.jpg"
   },
   {
     "id": "p2",
-    "name": "Blue Denim Jacket",
+    "name": "Blue Jacket",
     "category": "outerwear",
     "price": 59.99,
     "color": "blue",
-    "description": "Stylish blue denim jacket for everyday wear.",
-    "image": "https://example.com/products/p2.jpg"
+    "description": "Stylish blue jacket for everyday wear.",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6hp4XbBLdFB4Mj05WCSbaL78WtDEHWd9jKQ&s"
   }
 ]
