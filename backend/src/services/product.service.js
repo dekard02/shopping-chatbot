@@ -28,7 +28,7 @@ exports.filterProducts = async (
 
       // Occasion match (if specified)
       if (occasion) {
-        const occasionMatch = product.occasion
+        const occasionMatch = product.occasions
           .map((o) => o.toLowerCase())
           .includes(occasion.toLowerCase());
         if (!occasionMatch) return false;

@@ -49,7 +49,7 @@ const handleToolCalling = async (
     assistantMessage.tool_calls[0].function.arguments || "{}"
   );
 
-  // console.info(`🔧 Calling function: ${toolName} with args:`, toolArguments);
+  console.info(`🔧 Calling function: ${toolName} with args:`, toolArguments);
 
   const toolResult = await toolHandlers[toolName](
     conversationId,

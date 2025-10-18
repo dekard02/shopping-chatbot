@@ -9,7 +9,6 @@
     "price": 129.99,
     "occasions": ["casual", "night"],
     "image": "https://sixdo.vn/images/products/2025/original/_1744433736_DSC2705_1.jpg",
-    "url": "https://example.com/products/p2",
     "soldCount": 210
   },
   {
@@ -21,8 +20,7 @@
     "sizes": ["S", "M"],
     "price": 199.99,
     "occasions": ["formal", "party"],
-    "image": "https://sixdo.vn/images/products/2025/original/_1418736467_dsc7175.jpg",
-    "url": "https://example.com/products/p3",
+    "image": "https://sixdo.vn/images/products/2025/original/_1744433736_DSC2705_1.jpg",
     "soldCount": 320
   },
   {
@@ -30,12 +28,11 @@
     "name": "White Blazer Suit",
     "description": "Sharp and modern, perfect for office or business meetings.",
     "category": "suit",
-    "color": "white",
+    "color": "red",
     "sizes": ["S", "M", "L"],
     "price": 249.99,
     "occasions": ["work", "formal"],
-    "image": "https://sixdo.vn/images/products/2025/original/_1417391877_dsc6230.jpg",
-    "url": "https://example.com/products/p4",
+    "image": "https://sixdo.vn/images/products/2025/original/_1744433736_DSC2705_1.jpg",
     "soldCount": 150
   },
   {
@@ -43,12 +40,11 @@
     "name": "Navy Casual Shirt",
     "description": "Comfortable and breathable, perfect for daily wear.",
     "category": "shirt",
-    "color": "navy",
+    "color": "red",
     "sizes": ["M", "L", "XL"],
     "price": 49.99,
     "occasions": ["casual"],
-    "image": "https://sixdo.vn/images/products/2025/original/_1739321506_dsc3730.jpg",
-    "url": "https://example.com/products/p5",
+    "image": "https://sixdo.vn/images/products/2025/original/_1744433736_DSC2705_1.jpg",
     "soldCount": 390
   },
   {
@@ -56,12 +52,11 @@
     "name": "Beige Trench Coat",
     "description": "Classic trench coat for autumn and winter outfits.",
     "category": "coat",
-    "color": "beige",
+    "color": "red",
     "sizes": ["M", "L"],
     "price": 189.99,
     "occasions": ["casual", "work"],
-    "image": "https://sixdo.vn/images/products/2025/original/_1421741192_dsc01946.jpg",
-    "url": "https://example.com/products/p6",
+    "image": "https://sixdo.vn/images/products/2025/original/_1744433736_DSC2705_1.jpg",
     "soldCount": 180
   },
   {
@@ -69,12 +64,11 @@
     "name": "Emerald Green Wrap Dress",
     "description": "Chic wrap dress with flowing design for special occasions.",
     "category": "dress",
-    "color": "green",
+    "color": "red",
     "sizes": ["S", "M"],
     "price": 109.99,
     "occasions": ["party", "wedding"],
-    "image": "https://sixdo.vn/images/products/2025/original/_1018102053_dsc7931.jpg",
-    "url": "https://example.com/products/p7",
+    "image": "https://sixdo.vn/images/products/2025/original/_1744433736_DSC2705_1.jpg",
     "soldCount": 265
   },
   {
@@ -86,8 +80,7 @@
     "sizes": ["M", "L", "XL"],
     "price": 69.99,
     "occasions": ["casual", "work"],
-    "image": "https://sixdo.vn/images/products/2025/original/_1742300948_dsc2485.jpg",
-    "url": "https://example.com/products/p8",
+    "image": "https://sixdo.vn/images/products/2025/original/_1744433736_DSC2705_1.jpg",
     "soldCount": 140
   },
   {
@@ -99,8 +92,7 @@
     "sizes": ["S", "M"],
     "price": 39.99,
     "occasions": ["casual", "date"],
-    "image": "https://sixdo.vn/images/products/2025/original/_1754071846_dsc2027.jpg",
-    "url": "https://example.com/products/p9",
+    "image": "https://sixdo.vn/images/products/2025/original/_1744433736_DSC2705_1.jpg",
     "soldCount": 185
   },
   {
@@ -112,8 +104,7 @@
     "sizes": ["M", "L", "XL"],
     "price": 219.99,
     "occasions": ["formal", "work"],
-    "image": "https://sixdo.vn/images/products/2025/original/_1424624411_dsc03319.jpg",
-    "url": "https://example.com/products/p10",
+    "image": "https://sixdo.vn/images/products/2025/original/_1744433736_DSC2705_1.jpg",
     "soldCount": 300
   },
   {
@@ -125,8 +116,7 @@
     "sizes": ["S", "M", "L"],
     "price": 89.99,
     "occasions": ["casual", "vacation"],
-    "image": "https://sixdo.vn/images/products/2025/original/_1736434972_dsc5106.jpg",
-    "url": "https://example.com/products/p11",
+    "image": "https://sixdo.vn/images/products/2025/original/_1744433736_DSC2705_1.jpg",
     "soldCount": 230
   }
 ]
