@@ -1,38 +1,31 @@
-const express = require('express');
+const app = require("./app");
 
-const cors = require('cors');
-const httpStatus = require('http-status');
-const morgan = require('morgan');
-const routes = require('./routes/v1');
-const { errorConverter, errorHandler } = require('./middlewares/error');
-const ApiError = require('./errors/ApiError');
-
-const app = express();
-
-app.use(morgan());
-
-// parse json request body
-app.use(express.json());
-
-// parse urlencoded request body
-app.use(express.urlencoded({ extended: true }));
-
-// enable cors
-app.use(cors());
-app.options('*', cors());
-
-// v1 api routes
-app.use('api/v1', routes);
-
-// send back a 404 error for any unknown api request
-app.use((req, res, next) => {
-    next(new ApiError(httpStatus.NOT_FOUND, 'Not found'));
+const server = app.listen(process.env.PORT, () => {
+  console.info(`Listening to port ${process.env.PORT}`);
 });
 
-// convert error to ApiError, if needed
-app.use(errorConverter);
+const exitHandler = () => {
+  if (server) {
+    server.close(() => {
+      console.info("Server closed");
+      process.exit(1);
+    });
+  } else {
+    process.exit(1);
+  }
+};
 
-// handle error
-app.use(errorHandler);
+const unexpectedErrorHandler = (error) => {
+  console.error(error);
+  exitHandler();
+};
 
-module.exports = app;
+process.on("uncaughtException", unexpectedErrorHandler);
+process.on("unhandledRejection", unexpectedErrorHandler);
+
+process.on("SIGTERM", () => {
+  logger.info("SIGTERM received");
+  if (server) {
+    server.close();
+  }
+});

@@ -10,15 +10,11 @@ const router = express.Router();
 const defaultRoutes = [
   {
     path: "/chat",
-    route: express.Router().post("/").use(handleChat),
+    route: express.Router().post("/:conversationId", handleChat),
   },
   {
     path: "/products",
-    route: express
-      .Router()
-      .get("/")
-      .use(getProducts)
-      .get("/:id", getDetailProduct),
+    route: express.Router().get("/", getProducts).get("/:id", getDetailProduct),
   },
 ];
 

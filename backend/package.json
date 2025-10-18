@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "src/index.js",
   "scripts": {
-    "dev": "node src/index.js",
+    "dev": "nodemon src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "thunder-wolf",
@@ -14,7 +14,11 @@
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "http-status": "^2.1.0",
+    "lru-cache": "^11.2.2",
     "morgan": "^1.10.1",
     "openai": "^6.5.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
   }
 }

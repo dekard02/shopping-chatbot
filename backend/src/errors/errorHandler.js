@@ -1,12 +1,13 @@
-const httpStatus = require('http-status');
-const ApiError = require('./ApiError');
+const { status } = require("http-status");
+const ApiError = require("./ApiError");
 
 const errorConverter = (err, req, res, next) => {
   let error = err;
   if (!(error instanceof ApiError)) {
-    const statusCode =
-      error.statusCode ? httpStatus.BAD_REQUEST : httpStatus.INTERNAL_SERVER_ERROR;
-    const message = error.message || httpStatus[statusCode];
+    const statusCode = error.statusCode
+      ? status.BAD_REQUEST
+      : status.INTERNAL_SERVER_ERROR;
+    const message = error.message || status[statusCode];
     error = new ApiError(statusCode, message, false, err.stack);
   }
   next(error);
@@ -14,9 +15,9 @@ const errorConverter = (err, req, res, next) => {
 
 const errorHandler = (err, req, res, next) => {
   let { statusCode, message } = err;
-  if (config.env === 'production' && !err.isOperational) {
-    statusCode = httpStatus.INTERNAL_SERVER_ERROR;
-    message = httpStatus[httpStatus.INTERNAL_SERVER_ERROR];
+  if (process.env.ENV === "production" && !err.isOperational) {
+    statusCode = status.INTERNAL_SERVER_ERROR;
+    message = status[status.INTERNAL_SERVER_ERROR];
   }
 
   res.locals.errorMessage = err.message;
@@ -24,10 +25,9 @@ const errorHandler = (err, req, res, next) => {
   const response = {
     code: statusCode,
     message,
-    ...(config.env === 'development' && { stack: err.stack }),
   };
 
-  if (config.env === 'development') {
+  if (process.env.ENV === "development") {
     console.error(err);
   }
 
