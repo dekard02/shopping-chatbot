@@ -49,9 +49,12 @@ const handleToolCalling = async (
     assistantMessage.tool_calls[0].function.arguments || "{}"
   );
 
-  console.info(`🔧 Calling function: ${toolName} with args:`, toolArguments);
+  // console.info(`🔧 Calling function: ${toolName} with args:`, toolArguments);
 
-  const toolResult = await toolHandlers[toolName](toolArguments.colors);
+  const toolResult = await toolHandlers[toolName](
+    conversationId,
+    toolArguments
+  );
 
   conversation.push(assistantMessage);
 
@@ -61,8 +64,6 @@ const handleToolCalling = async (
     tool_call_id: assistantMessage.tool_calls[0].id,
     content: JSON.stringify(toolResult),
   });
-
-  console.log(JSON.stringify(conversation));
 
   // Get final response after tool call
   const finalResponse = await openai.chat.completions.create({
