@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { ChatMode, Message } from '../../models';
 import { ChatBubbleIcon, CloseIcon, SendIcon } from './icons';
 import chatbotApi from '../../apis/chatbotApi';
+import ReactMarkdown from 'react-markdown';
 
 interface ChatbotProps {
   mode: ChatMode;
@@ -11,10 +12,15 @@ interface ChatbotProps {
 
 const Chatbot: React.FC<ChatbotProps> = ({ mode, className }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [messages, setMessages] = useState<Message[]>([]);
   const [userInput, setUserInput] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [conversationId,setConversationId] = useState<string>(Math.floor(Math.random() * (10000 - 1 + 1)) + 1 + '' );
+  const [conversationId, setConversationId] = useState<string>(Math.floor(Math.random() * (10000 - 1 + 1)) + 1 + '');
+  const [messages, setMessages] = useState<Message[]>(() => {
+    const cached = localStorage.getItem(`chat_messages_${conversationId}`);
+    return cached ? JSON.parse(cached) : [];
+  });
+
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -24,6 +30,12 @@ const Chatbot: React.FC<ChatbotProps> = ({ mode, className }) => {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  useEffect(() => {
+    if (conversationId) {
+      localStorage.setItem(`chat_messages_${conversationId}`, JSON.stringify(messages));
+    }
+  }, [messages, conversationId]);
 
   useEffect(() => {
     const initializeChat = () => {
@@ -45,11 +57,11 @@ const Chatbot: React.FC<ChatbotProps> = ({ mode, className }) => {
     setUserInput('');
     setIsLoading(true);
     try {
-    const chatResponse = await chatbotApi.sendMessages(conversationId, {message : userInput.trim()} );
+      const chatResponse = await chatbotApi.sendMessages(conversationId, { message: userInput.trim() });
 
-    const botMessage: Message = { role: 'assistant', content: chatResponse.data.response };
-    setMessages((prevMessages) => [...prevMessages, botMessage]);
-    setIsLoading(false);
+      const botMessage: Message = { role: 'assistant', content: chatResponse.data.response };
+      setMessages((prevMessages) => [...prevMessages, botMessage]);
+      setIsLoading(false);
     } catch (error) {
       setMessages((prevMessages) => [...prevMessages, { role: 'assistant', content: 'Sorry, something went wrong. Please try again later.' }]);
       setIsLoading(false);
@@ -62,17 +74,17 @@ const Chatbot: React.FC<ChatbotProps> = ({ mode, className }) => {
       handleSendMessage();
     }
   };
-  
+
   const ChatWindow = (
     <div className="flex flex-col h-full w-full bg-white shadow-lg rounded-lg overflow-hidden">
-        {mode === 'float' && (
-             <header className="bg-slate-800 text-white p-4 flex justify-between items-center">
-                <h2 className="text-lg font-semibold">Shop AI Assistant</h2>
-                <button onClick={() => setIsOpen(false)} className="text-slate-300 hover:text-white">
-                    <CloseIcon className="h-6 w-6" />
-                </button>
-            </header>
-        )}
+      {mode === 'float' && (
+        <header className="bg-slate-800 text-white p-4 flex justify-between items-center">
+          <h2 className="text-lg font-semibold">Shop AI Assistant</h2>
+          <button onClick={() => setIsOpen(false)} className="text-slate-300 hover:text-white">
+            <CloseIcon className="h-6 w-6" />
+          </button>
+        </header>
+      )}
       <div className="flex-1 p-4 overflow-y-auto space-y-4 bg-slate-50">
         {messages.map((msg, index) => (
           <div
@@ -80,13 +92,13 @@ const Chatbot: React.FC<ChatbotProps> = ({ mode, className }) => {
             className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
           >
             <div
-              className={`max-w-xs md:max-w-md lg:max-w-lg px-4 py-2 rounded-xl shadow ${
-                msg.role === 'user'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-slate-200 text-slate-800'
-              }`}
+              className={`max-w-xs md:max-w-md lg:max-w-lg px-4 py-2 rounded-xl shadow ${msg.role === 'user'
+                ? 'bg-blue-600 text-white'
+                : 'bg-slate-200 text-slate-800'
+                }`}
             >
-              <p className="whitespace-pre-wrap">{msg.content}</p>
+              {/* <p className="whitespace-pre-wrap"></p> */}
+              <ReactMarkdown>{msg.content}</ReactMarkdown>
             </div>
           </div>
         ))}
@@ -134,7 +146,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ mode, className }) => {
     <div className={`fixed bottom-5 right-5 z-50 ${className}`}>
       {isOpen ? (
         <div className="w-80 h-96 md:w-96 md:h-[500px] shadow-2xl rounded-lg transition-all duration-300 ease-in-out">
-            {ChatWindow}
+          {ChatWindow}
         </div>
       ) : (
         <button
