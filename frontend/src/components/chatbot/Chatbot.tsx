@@ -3,8 +3,8 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { ChatMode, Message } from '../../models';
 import { ChatBubbleIcon, CloseIcon, SendIcon } from './icons';
 import chatbotApi from '../../apis/chatbotApi';
-import ReactMarkdown from 'react-markdown';
-import cachedHelper from '../../utility/cachedHelper'; 
+import cachedHelper from '../../utility/cachedHelper';
+import MarkdownCustomize from './MarkdownCustomize';
 
 interface ChatbotProps {
   mode: ChatMode;
@@ -12,19 +12,18 @@ interface ChatbotProps {
 }
 
 const Chatbot: React.FC<ChatbotProps> = ({ mode, className }) => {
+
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [userInput, setUserInput] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [conversationId, setConversationId] = useState<string | null>( cachedHelper.hasSessionStorageKeyIncluding("chat_messages") ? cachedHelper.hasSessionStorageKeyIncluding("chat_messages") : Math.floor(Math.random() * (10000 - 1 + 1)) + 1 + '');
+  const [conversationId] = useState<string | null>(cachedHelper.hasSessionStorageKeyIncluding("chat_messages") ? cachedHelper.hasSessionStorageKeyIncluding("chat_messages") : Math.floor(Math.random() * (10000 - 1 + 1)) + 1 + '');
   const [messages, setMessages] = useState<Message[]>(() => {
     const cached = sessionStorage.getItem(`chat_messages_${conversationId}`);
-    return cached ? JSON.parse(cached) : [ {
-          role: 'assistant',
-          content: 'Hello! How can I assist you today?',
-        }];
+    return cached ? JSON.parse(cached) : [{
+      role: 'assistant',
+      content: 'Hello! How can I assist you today?',
+    }];
   });
-  console.log(messages);
-  
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -53,6 +52,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ mode, className }) => {
       const chatResponse = await chatbotApi.sendMessages(conversationId ?? '', { message: userInput.trim() });
 
       const botMessage: Message = { role: 'assistant', content: chatResponse.data.response };
+      console.log(botMessage)
       setMessages((prevMessages) => [...prevMessages, botMessage]);
       setIsLoading(false);
     } catch (error) {
@@ -72,7 +72,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ mode, className }) => {
     <div className="flex flex-col h-full w-full bg-white shadow-lg rounded-lg overflow-hidden">
       {mode === 'float' && (
         <header className="bg-slate-800 text-white p-4 flex justify-between items-center">
-          <h2 className="text-lg font-semibold">Shop AI Assistant</h2>
+          <h2 className="text-lg font-semibold">AI Assistant</h2>
           <button onClick={() => setIsOpen(false)} className="text-slate-300 hover:text-white">
             <CloseIcon className="h-6 w-6" />
           </button>
@@ -85,13 +85,12 @@ const Chatbot: React.FC<ChatbotProps> = ({ mode, className }) => {
             className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
           >
             <div
-              className={`max-w-xs md:max-w-md lg:max-w-lg px-4 py-2 rounded-xl shadow ${msg.role === 'user'
+              className={`max-w-xs md:max-w-md lg:max-w-lg px-4 py-2  rounded-xl shadow ${msg.role === 'user'
                 ? 'bg-blue-600 text-white'
-                : 'bg-slate-200 text-slate-800'
+                : 'bg-slate-200 text-slate-800 w-full'
                 }`}
             >
-              {/* <p className="whitespace-pre-wrap"></p> */}
-              <ReactMarkdown>{msg.content}</ReactMarkdown>
+              <MarkdownCustomize msg={msg} />
             </div>
           </div>
         ))}
@@ -138,7 +137,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ mode, className }) => {
   return (
     <div className={`fixed bottom-5 right-5 z-50 ${className}`}>
       {isOpen ? (
-        <div className="w-80 h-96 md:w-96 md:h-[500px] shadow-2xl rounded-lg transition-all duration-300 ease-in-out">
+        <div className="w-80 h-96 md:w-[600px] md:h-[500px] shadow-2xl rounded-lg transition-all duration-300 ease-in-out">
           {ChatWindow}
         </div>
       ) : (
