@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { ChatMode, Message } from '../../models';
 import { ChatBubbleIcon, CloseIcon, SendIcon } from './icons';
+import chatbotApi from '../../apis/chatbotApi';
 
 interface ChatbotProps {
   mode: ChatMode;
@@ -10,10 +11,10 @@ interface ChatbotProps {
 
 const Chatbot: React.FC<ChatbotProps> = ({ mode, className }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  // const [chatSession, setChatSession] = useState<Chat | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [userInput, setUserInput] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [conversationId,setConversationId] = useState<string>(Math.floor(Math.random() * (10000 - 1 + 1)) + 1 + '' );
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -26,12 +27,10 @@ const Chatbot: React.FC<ChatbotProps> = ({ mode, className }) => {
 
   useEffect(() => {
     const initializeChat = () => {
-      // const session = createChatSession();
-      // setChatSession(session);
       setMessages([
         {
-          role: 'model',
-          text: 'Hello! How can I assist you today?',
+          role: 'assistant',
+          content: 'Hello! How can I assist you today?',
         },
       ]);
     };
@@ -41,17 +40,20 @@ const Chatbot: React.FC<ChatbotProps> = ({ mode, className }) => {
   const handleSendMessage = useCallback(async () => {
     if (isLoading || !userInput.trim()) return;
 
-    const userMessage: Message = { role: 'user', text: userInput.trim() };
+    const userMessage: Message = { role: 'user', content: userInput.trim() };
     setMessages((prevMessages) => [...prevMessages, userMessage]);
     setUserInput('');
     setIsLoading(true);
+    try {
+    const chatResponse = await chatbotApi.sendMessages(conversationId, {message : userInput.trim()} );
 
-    // const botResponseText = await sendMessage(chatSession, userInput.trim());
-    await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate API call delay
-
-    const botMessage: Message = { role: 'model', text: "hello" };
+    const botMessage: Message = { role: 'assistant', content: chatResponse.data.response };
     setMessages((prevMessages) => [...prevMessages, botMessage]);
     setIsLoading(false);
+    } catch (error) {
+      setMessages((prevMessages) => [...prevMessages, { role: 'assistant', content: 'Sorry, something went wrong. Please try again later.' }]);
+      setIsLoading(false);
+    }
   }, [userInput, isLoading]);
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -84,7 +86,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ mode, className }) => {
                   : 'bg-slate-200 text-slate-800'
               }`}
             >
-              <p className="whitespace-pre-wrap">{msg.text}</p>
+              <p className="whitespace-pre-wrap">{msg.content}</p>
             </div>
           </div>
         ))}

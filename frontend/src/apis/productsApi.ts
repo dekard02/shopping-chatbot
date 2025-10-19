@@ -1,12 +1,5 @@
 import { baseApi, ApiResponse } from './baseApi';
-
-export type Product = {
-  id: string;
-  name: string;
-  price: number;
-  description?: string;
-  [key: string]: unknown;
-};
+import { Product } from '../models/productModel';
 
 const list = async (params?: Record<string, unknown>): Promise<ApiResponse<Product[]>> => {
   return baseApi.get<Product[]>('/products', params);
