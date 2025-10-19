@@ -4,6 +4,7 @@ import { ChatMode, Message } from '../../models';
 import { ChatBubbleIcon, CloseIcon, SendIcon } from './icons';
 import chatbotApi from '../../apis/chatbotApi';
 import ReactMarkdown from 'react-markdown';
+import cachedHelper from '../../utility/cachedHelper'; 
 
 interface ChatbotProps {
   mode: ChatMode;
@@ -14,12 +15,16 @@ const Chatbot: React.FC<ChatbotProps> = ({ mode, className }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [userInput, setUserInput] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [conversationId, setConversationId] = useState<string>(Math.floor(Math.random() * (10000 - 1 + 1)) + 1 + '');
+  const [conversationId, setConversationId] = useState<string | null>( cachedHelper.hasSessionStorageKeyIncluding("chat_messages") ? cachedHelper.hasSessionStorageKeyIncluding("chat_messages") : Math.floor(Math.random() * (10000 - 1 + 1)) + 1 + '');
   const [messages, setMessages] = useState<Message[]>(() => {
-    const cached = localStorage.getItem(`chat_messages_${conversationId}`);
-    return cached ? JSON.parse(cached) : [];
+    const cached = sessionStorage.getItem(`chat_messages_${conversationId}`);
+    return cached ? JSON.parse(cached) : [ {
+          role: 'assistant',
+          content: 'Hello! How can I assist you today?',
+        }];
   });
-
+  console.log(messages);
+  
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -33,21 +38,9 @@ const Chatbot: React.FC<ChatbotProps> = ({ mode, className }) => {
 
   useEffect(() => {
     if (conversationId) {
-      localStorage.setItem(`chat_messages_${conversationId}`, JSON.stringify(messages));
+      sessionStorage.setItem(`chat_messages_${conversationId}`, JSON.stringify(messages));
     }
   }, [messages, conversationId]);
-
-  useEffect(() => {
-    const initializeChat = () => {
-      setMessages([
-        {
-          role: 'assistant',
-          content: 'Hello! How can I assist you today?',
-        },
-      ]);
-    };
-    initializeChat();
-  }, []);
 
   const handleSendMessage = useCallback(async () => {
     if (isLoading || !userInput.trim()) return;
@@ -57,7 +50,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ mode, className }) => {
     setUserInput('');
     setIsLoading(true);
     try {
-      const chatResponse = await chatbotApi.sendMessages(conversationId, { message: userInput.trim() });
+      const chatResponse = await chatbotApi.sendMessages(conversationId ?? '', { message: userInput.trim() });
 
       const botMessage: Message = { role: 'assistant', content: chatResponse.data.response };
       setMessages((prevMessages) => [...prevMessages, botMessage]);
