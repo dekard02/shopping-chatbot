@@ -14,7 +14,8 @@ exports.filterProducts = async (
       if (colors && colors.length > 0) {
         const colorMatch = colors
           .map((c) => c.toLowerCase())
-          .includes(product.color.toLowerCase());
+          .some((c) => product.color.toLowerCase().includes(c));
+
         if (!colorMatch) return false;
       }
 
