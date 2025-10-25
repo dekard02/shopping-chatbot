@@ -112,5 +112,5 @@ def query_products(collection, query_text, n_results=3):
 
 if __name__ == "__main__":
     client, products = init_chroma()
-    context = query_products(products, "wireless headphones")
+    context = query_products(products, "blue demin")
     print(json.dumps(context, indent=2))

@@ -32,8 +32,8 @@ class Config:
     # ==============================
     # 🗣️ Text-to-Speech (Hugging Face)
     # ==============================
-    TTS_MODEL = os.getenv("TTS_MODEL", "facebook/fastspeech2-en-ljspeech")
-
+    TTS_MODEL = os.getenv("TTS_MODEL", "facebook/mms-tts-eng")
+    TTS_OUTPUT_DIR = os.getenv("TTS_OUTPUT_DIR", "./public")
 
 # Global config instance
 config = Config()
