@@ -17,6 +17,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ mode, className }) => {
   const [userInput, setUserInput] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [conversationId] = useState<string | null>(cachedHelper.hasSessionStorageKeyIncluding("chat_messages") ? cachedHelper.hasSessionStorageKeyIncluding("chat_messages") : Math.floor(Math.random() * (10000 - 1 + 1)) + 1 + '');
+  const [audio,setAudio] = useState<string>('');
   const [messages, setMessages] = useState<Message[]>(() => {
     const cached = sessionStorage.getItem(`chat_messages_${conversationId}`);
     return cached ? JSON.parse(cached) : [{
@@ -50,10 +51,19 @@ const Chatbot: React.FC<ChatbotProps> = ({ mode, className }) => {
     setIsLoading(true);
     try {
       const chatResponse = await chatbotApi.sendMessages(conversationId ?? '', { message: userInput.trim() });
-
-      const botMessage: Message = { role: 'assistant', content: chatResponse.data.response };
-      console.log(botMessage)
+    
+      const botMessage: Message = {
+        role: 'assistant',
+        content: chatResponse.data.response
+      };
       setMessages((prevMessages) => [...prevMessages, botMessage]);
+      
+      // Play audio if available
+      if (chatResponse.data.audio) {
+        // setAudio(chatResponse.data.audio);
+        const audio = new Audio("http://localhost:5000/public/" +chatResponse.data.audio);
+        await audio.play();
+      }
       setIsLoading(false);
     } catch (error) {
       setMessages((prevMessages) => [...prevMessages, { role: 'assistant', content: 'Sorry, something went wrong. Please try again later.' }]);
