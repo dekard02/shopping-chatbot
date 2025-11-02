@@ -1,0 +1,33 @@
+.ad_header {
+    @include flex(center, flex-end);
+
+    width: 82%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 99;
+    height: calc(#{$header-height} - 30px);
+    padding-right: 2.0rem;
+    box-sizing: border-box;
+    border-bottom: 1px solid rgba(108, 117, 125, .25);
+    background-color: $main-bg;
+
+    .dropdown {
+        button {
+            outline: unset !important;
+            background-color: unset !important;
+            border: unset !important;
+            box-shadow: unset !important;
+            color: $main-color  !important;
+            padding: 0.5rem;
+        }
+
+        img {
+            max-height: 100%;
+            border-radius: 50%;
+            vertical-align: middle;
+            border: 1px solid #eee;
+            width: 40px;
+        }
+    }
+}

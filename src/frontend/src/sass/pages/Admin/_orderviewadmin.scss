@@ -1,0 +1,51 @@
+.orderview {
+    &-header {
+        @include flex(center, flex-start);
+        width: 100%;
+        &-item {
+            height: 100%;
+            padding: 0.5rem;
+
+            &-date {
+                @include flex(center, flex-start);
+                column-gap: 10px;
+                font-size: 14pt;
+                span {
+                    font-weight: 700;
+                    display: inline-block;
+                    margin-top: 3px;
+                }
+                i {
+                    font-size: 15pt;
+                }
+            }
+            &-orderid {
+                font-size: 12pt;
+            }
+            span.btn-txt {
+                display: block;
+                padding: 0;
+                font-size: 15pt;
+            }
+        }
+
+        &-item:nth-child(1) {
+            width: 75%;
+        }
+        &-item:nth-child(2) {
+            width: 20%;
+        }
+        &-item:nth-child(3) {
+            width: 5%;
+        }
+    }
+    &-body {
+        &-info {
+            margin-bottom: 25px;
+            @include flex(center, space-around);
+            width: 100%;
+            column-gap: 10px;
+            
+        }
+    }
+}

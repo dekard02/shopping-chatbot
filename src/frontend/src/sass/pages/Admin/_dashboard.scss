@@ -1,0 +1,95 @@
+.dashboard {
+    @include flex(center, center);
+    width: 100%;
+    flex-direction: column;
+    row-gap: 30px;
+
+    &-counts {
+        @include flex(center, space-around);
+        width: 100%;
+        column-gap: 30px;
+
+        &-item {
+            flex-grow: 1;
+            width: 100%;
+            &-container {
+                @include flex(center, flex-start);
+                column-gap: 1rem;
+                &-icon {
+                    padding: 10px;
+                    border-radius: 50%;
+                    width: 50px;
+                    height: 50px;
+                    font-size: 20pt;
+                    position: relative;
+                    i {
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                    }
+                    &.sale {
+                        background-color: rgb(207, 226, 255);
+                        color: rgb(13, 110, 253);
+                    }
+                    &.order {
+                        color: rgb(25, 135, 84);
+                        background-color: rgb(209, 231, 221);
+                    }
+                    &.product {
+                        color: rgb(255, 193, 7);
+                        background-color: rgb(255, 243, 205);
+                    }
+                    &.customer {
+                        color: rgb(255, 0, 0);
+                        background-color: rgb(255, 160, 122);
+                    }
+                    &.staff {
+                        color: rgb(255, 20, 147);
+                        background-color: rgb(255, 182, 193);
+                    }
+                }
+                &-title {
+                    p {
+                        margin: 0;
+                    }
+                    p:nth-child(1) {
+                        font-size: 12pt;
+                        font-weight: 600;
+                    }
+                    p:nth-child(2) {
+                        font-size: 12pt;
+                    }
+                }
+            }
+        }
+    }
+    &-statistic {
+        @include flex(center, center);
+        width: 100%;
+        column-gap: 10px;
+        flex-direction: column;
+        row-gap: 20px;
+        &-chart {
+            height: 100%;
+            width: 100%;
+            flex-grow: 1;
+
+            .kard-header {
+                font-size: 14pt;
+                font-weight: 700;
+            }
+
+            &:nth-child(2) {
+                width: 50%;
+            }
+        }
+    }
+    &-order {
+        width: 100%;
+        .kard-header {
+            font-size: 14pt;
+            font-weight: 700;
+        }
+    }
+}

@@ -1,0 +1,80 @@
+.navbar {
+    display: block;
+    position: fixed;
+    top: 0px;
+    bottom: 0px;
+    width: 18%;
+    overflow-y: auto;
+    background-color: rgb(255, 255, 255);
+    z-index: 10;
+    border-right: 1px solid rgba(108, 117, 125, 0.25);
+    padding: 0;
+    font-size: 18pt;
+    max-width: 18%;
+
+
+    &-header {
+        @include flex(center, space-between);
+
+
+        padding: 0.8rem;
+
+        &-title {
+            padding: 0 5px;
+        }
+
+    }
+
+    &-body {
+        &-menu {
+            margin: 0.5rem;
+            padding: 0px;
+
+            &-item {
+                margin-bottom: 5px;
+                display: list-item;
+                border-radius: 5px;
+
+                &-link {
+
+                    padding: 10px;
+                    color: rgb(41, 51, 93);
+                    font-weight: 700;
+                    border-radius: 0.3rem;
+                    position: relative;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    display: block;
+                    text-decoration: none;
+                    font-size: 1.5rem;
+
+
+                    svg {
+                        display: block;
+                        width: 2rem;
+                        height: 1.75rem;
+                        display: inline-block;
+                        margin-right: 1rem;
+                        padding-bottom: 0.05rem;
+                    }
+
+                    path {
+                        display: block;
+                        height: 100%;
+                    }
+                }
+            }
+
+            .active {
+                background-color: rgb(204, 212, 231);
+
+                svg {
+                    color: $main-color;
+                }
+            }
+
+
+        }
+    }
+}

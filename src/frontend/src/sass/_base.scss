@@ -1,0 +1,160 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100;300;400;500;700;800;900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+
+html {
+    font-size: 13px;
+
+    @include mobile {
+        font-size: 11px;
+    }
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+textarea {
+    height: 150px;
+}
+label {
+    font-size: 13pt;
+    font-weight: 700;
+    @include mobile {
+        font-size: 10pt;
+    }
+}
+body {
+    font-family: "Roboto", sans-serif;
+    .MuiDataGrid-root {
+        border-left: unset;
+        border-right: unset;
+        border-top: unset;
+    }
+    .MuiDataGrid-cell {
+        font-weight: 700;
+        // border-color: blue;
+        font-size: 10pt;
+    }
+    .MuiDataGrid-columnHeaderTitle {
+        font-size: 12pt;
+        color: black;
+        font-weight: 900 !important;
+    }
+    .MuiDataGrid-columnHeaders {
+        border-bottom: 1.5px solid black;
+    }
+}
+
+ul {
+    list-style-type: none;
+}
+
+img {
+    max-width: 100%;
+}
+
+a {
+    text-decoration: none !important;
+    color: unset;
+}
+
+a:hover {
+    color: $main-color;
+}
+
+// ::after, ::before {
+//     box-sizing: border-box;
+// }
+
+@each $color, $val in $colors {
+    .color-#{$color} {
+        color: $val;
+    }
+
+    .bg-#{$color} {
+        background-color: $val;
+    }
+    .cell-#{$color} {
+        color: $val;
+    }
+}
+
+@each $val in $numbers {
+    .grid-col-#{$val} {
+        grid-template-columns: repeat($val, 1fr);
+    }
+}
+
+@each $val in $numbers {
+    .grid-col-md-#{$val} {
+        @include tablet {
+            grid-template-columns: repeat($val, 1fr);
+        }
+    }
+}
+
+@each $val in $numbers {
+    .grid-col-sm-#{$val} {
+        @include mobile {
+            grid-template-columns: repeat($val, 1fr);
+        }
+    }
+}
+
+.container {
+    width: 100%;
+    max-width: 1620px;
+    padding: 0 50px;
+    margin: auto;
+
+    @include tablet {
+        padding: 0 20px;
+    }
+
+    @include mobile {
+        padding: 0 10px;
+    }
+}
+
+.main {
+    margin-top: $header-height;
+    margin-bottom: 2rem;
+    min-height: 50vh;
+
+    @include tablet {
+        margin-top: calc(#{$header-tablet-height} + 20px);
+    }
+
+    @include mobile {
+        margin-top: calc(#{$header-mobile-height} + 70px);
+    }
+}
+//for admin layout
+.content {
+    padding-top: calc(#{$header-height} - 30px);
+    margin-left: 18%;
+    min-height: 100vh;
+    // overflow-y: hidden; // for background color flow
+    background-color: $temp-bg;
+    z-index: -1;
+    //  @include tablet {
+    //     padding-top: calc(#{$header-tablet-height} + 20px);
+    // }
+
+    // @include mobile {
+    //     margin-top: calc(#{$header-mobile-height} + 70px);
+    // }
+}
+
+.grid {
+    display: grid;
+}

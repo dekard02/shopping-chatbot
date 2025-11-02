@@ -1,0 +1,94 @@
+.customer-info {
+    @include flex(flex-start, flex-start);
+
+    margin-top: calc(#{$header-height} + 50px);
+    flex-direction: column;
+
+    &-header {
+        @include flex(start, flex-start);
+        flex-direction: column;
+        width: 100%;
+        font-size: 35pt;
+        color: $main-color;
+        margin-bottom: 30px;
+
+        @include mobile {
+            font-size: 20pt;
+        }
+
+        &::after {
+            content: "";
+            width: 100%;
+            border: 0.75px solid #50222b;
+        }
+    }
+
+    &-content {
+        @include flex(start, flex-start);
+        flex-direction: row-reverse;
+        width: 100%;
+        font-size: 20pt;
+        color: $txt-second-color;
+
+        @include tablet {
+            flex-direction: column-reverse;
+        }
+
+        @include mobile {
+            flex-direction: column-reverse;
+            font-size: 15pt;
+        }
+
+        &-right {
+            width: 50%;
+            &-table {
+                &-select {
+                    @include flex(center, flex-start);
+                    flex-direction: column;
+                    &-item {
+                        width: 100%;
+                        .invalidmess {
+                            visibility: hidden;
+                            max-height: 2rem;
+                            font-size: 10pt;
+                            color: #dc3545 !important;
+
+                            .active {
+                                visibility: visible;
+                            }
+                        }
+                    }
+                }
+
+                .active {
+                    border-color: #dc3545;
+                }
+
+                .active:focus {
+                    box-shadow: 1px 1px 5px #dc3545;
+                }
+            }
+        }
+
+        &-left {
+            flex-grow: 1;
+            .table-responsive {
+                overflow: auto;
+                max-height: 650px;
+            }
+        }
+        &-right,
+        &-left {
+            padding: 1rem;
+
+            &-table {
+                margin-top: 10px;
+                font-size: 12pt;
+            }
+
+            @include tablet {
+                width: 100%;
+            }
+        }
+    }
+}
