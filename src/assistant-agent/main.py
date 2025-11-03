@@ -4,19 +4,16 @@ import uvicorn
 from copilotkit import LangGraphAGUIAgent 
 from ag_ui_langgraph import add_langgraph_fastapi_endpoint 
 from agent.graph import graph
-from dotenv import load_dotenv
-
-load_dotenv()
 
 app = FastAPI()
 add_langgraph_fastapi_endpoint(
   app=app,
   agent=LangGraphAGUIAgent(
-    name="sample_agent", # the name of your agent defined in langgraph.json
-    description="Describe your agent here, will be used for multi-agent orchestration",
+    name="assistant", # the name of your agent defined in langgraph.json
+    description="Chatbot trợ lý ảo tại website thương mại điện tử",
     graph=graph, # the graph object from your langgraph import
   ),
-  path="/assistant", # the endpoint you'd like to serve your agent on
+  path="/assistant-chatbot", # the endpoint you'd like to serve your agent on
 )
 
 # add new route for health check

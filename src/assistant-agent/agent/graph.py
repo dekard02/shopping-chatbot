@@ -9,6 +9,14 @@ from langgraph.types import Command
 from langgraph.prebuilt import ToolNode
 from copilotkit import CopilotKitState
 
+from config import env
+
+def get_openai_model():
+    return ChatOpenAI(model=env.OPENAI_MODEL,
+                        base_url=env.OPENAI_BASE_URL,
+                        api_key=env.OPENAI_API_KEY
+                        )
+
 class AgentState(CopilotKitState):
     """
     Here we define the state of the agent
@@ -38,6 +46,10 @@ tools = [
     # your_tool_here
 ]
 
+# async def agent_node(state: AgentState, config: RunnableConfig):
+#     # Access the tools from the copilotkit property
+#     tools = state.get("copilotkit", {}).get("actions", []) 
+
 async def chat_node(state: AgentState, config: RunnableConfig) -> Command[Literal["tool_node", "__end__"]]:
     """
     Standard chat node based on the ReAct design pattern. It handles:
@@ -50,11 +62,10 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> Command[Litera
     https://www.perplexity.ai/search/react-agents-NcXLQhreS0WDzpVaS4m9Cg
     """
 
-    # 1. Define the model
-    model = ChatOpenAI(model="gpt-4o")
+    print("calling chat_node with state:", state["copilotkit"])
 
     # 2. Bind the tools to the model
-    model_with_tools = model.bind_tools(
+    model_with_tools = get_openai_model().bind_tools(
         [
             *state["copilotkit"]["actions"],
             get_weather,
@@ -69,7 +80,7 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> Command[Litera
 
     # 3. Define the system message by which the chat model will be run
     system_message = SystemMessage(
-        content=f"You are a helpful assistant. Talk in {state.get('language', 'english')}."
+        content=f"Bạn là một chatbot trợ lý tại trang thương mại điện tử. Trả lời hoàng hảo các câu hỏi của khách hàng bằng tiếng Việt một cách chuyên nghiệp và thân thiện."
     )
 
     # 4. Run the model to generate a response
