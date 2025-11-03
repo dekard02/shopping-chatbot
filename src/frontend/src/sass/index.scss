@@ -1,0 +1,36 @@
+@import "./variables";
+@import "./mixins";
+@import "./base";
+
+
+
+//customer page
+@import "./pages/Customer/catalog";
+@import "./pages/Customer/order";
+@import "./pages/Customer/contact";
+@import "./pages/Customer/customerinfo";
+@import "./pages/Customer/product";
+@import "./pages/Customer/cart";
+
+@import "./components/header";
+@import "./components/footer";
+@import "./components/hero-slider";
+@import "./components/button";
+@import "./components/section";
+@import "./components/policy-card";
+@import "./components/product-card";
+@import "./components/custom-checkbox";
+@import "./components/product-view-modal";
+@import "./components/searchbar";
+@import "./components/loginsign-modal";
+@import "./components/alertmessage";
+
+//admin page
+@import "./pages/Admin/product";
+@import "./pages/Admin/orderviewadmin";
+@import "./pages/Admin/dashboard";
+
+@import "./components/content-main";
+@import "./components/navbar";
+@import "./components/headeradmin";
+@import "./components/card"

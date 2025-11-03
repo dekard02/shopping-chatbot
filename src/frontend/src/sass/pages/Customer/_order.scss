@@ -1,0 +1,200 @@
+.order {
+    @include flex(flex-start, flex-start);
+    padding: 50px;
+
+    @include mobile {
+        flex-direction: column-reverse;
+        padding: 0;
+    }
+
+    @include tablet {
+        padding: 0;
+    }
+
+    &-leftcontent {
+        width: 110%;
+
+        &-main-header {
+            .breadcrumb-item a {
+                text-decoration: none;
+                color: #1990C6;
+                transition: color 0.2s ease-in-out;
+                display: inline-block;
+            }
+
+            .breadcrumb-item::before {
+                display: none;
+            }
+
+            .breadcrumb-item::after {
+                content: "";
+                display: inline-block;
+                width: 6px;
+                height: 11px;
+                vertical-align: middle;
+                margin: 0 0.5em;
+                background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2IiBoZWlnaHQ9IjExIiBvcGFjaXR5PSIuNCIgZmlsbD0iIzAwMCI+PHBhdGggZD0iTS41MjYgMS40MDhsNCA0LjY0NS4wMTQtLjgzLTQgNC4zNTQuOTIuODQ2IDQtNC4zNTYuMzc2LS40MS0uMzYyLS40Mi00LTQuNjQ1LS45NDguODE2eiIvPjwvc3ZnPg==), none;
+            }
+
+            .breadcrumb-item-current {
+                font-weight: 500;
+                color: #4d4d4d;
+            }
+
+            .breadcrumb-item-current::after {
+                display: none;
+            }
+        }
+
+        &-main-content {
+            @include flex(center, flex-start);
+            flex-direction: row;
+            width: 90%;
+
+
+
+            &-info {
+                flex-grow: 1;
+
+                &-select {
+                    @include flex(center, flex-start);
+
+                    &-item {
+                        padding: 0.5rem;
+                        flex-grow: 1;
+
+                        .invalidmess {
+                            visibility: hidden;
+
+                            .active {
+                                visibility: visible;
+                                color: #DC3545;
+                            }
+                        }
+
+                    }
+                }
+
+                .active {
+                    border-color: #DC3545;
+                }
+
+                .active:focus {
+                    box-shadow: 1px 1px 5px #DC3545;
+                }
+            }
+        }
+
+        &,
+        &-main-content {
+            @include tablet {
+                width: 100%;
+            }
+        }
+
+
+
+    }
+
+    &-rightcontent {
+        width: 90%;
+        height: 100%;
+
+        // for 2 if mobile
+        &,
+        &-content {
+            @include mobile {
+                margin-left: 0 !important;
+                width: 100%;
+                padding: 0 !important;
+            }
+        }
+
+        &,
+        &-content {
+            @include tablet {
+                width: 100%;
+                margin-left: 0 !important;
+                padding-left: 10px;
+            }
+        }
+
+        &-content {
+            width: 100%;
+            margin-left: 40px;
+
+
+            &-order-cart-list {
+                height: fit-content;
+                max-height: 400px;
+                flex-grow: 1;
+                overflow: auto;
+
+                .cart-item {
+                    padding: 10px;
+                    margin-right: 20px;
+
+                    &-image {
+                        height: 60px;
+                        width: 60px;
+                        margin-right: 10px;
+
+                        img {
+
+                            max-width: 100%;
+                            max-height: 100%;
+                        }
+                    }
+                }
+            }
+
+            &-fee {
+                @include flex(center, flex-start);
+
+                flex-direction: column;
+                margin-top: 20px;
+                padding-top: 20px;
+                border-top: 2px solid #e3e3e3;
+
+                &-item {
+                    @include flex(center, space-between);
+                    width: 100%;
+                    margin-bottom: 10px;
+
+                    &-left {
+                        font-size: 1.25rem;
+                    }
+
+                    &-right {
+                        font-size: 1.5rem;
+                        font-weight: 500;
+                    }
+
+                }
+
+            }
+        }
+    }
+
+    &-rightcontent::after {
+
+        content: "";
+        display: block;
+        width: 45.5%;
+        position: absolute;
+        border-left: 2px solid #e3e3e3;
+        top: 0;
+        left: 54.4%;
+        bottom: -18%;
+        background: #fafafa;
+        z-index: -999;
+
+        @include mobile {
+            visibility: hidden;
+        }
+
+        @include tablet {
+            visibility: hidden;
+        }
+    }
+}

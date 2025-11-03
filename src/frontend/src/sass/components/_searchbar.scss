@@ -1,0 +1,103 @@
+.search {
+    &-inputs {
+        display: flex;
+    }
+
+    &-icon {
+        height: 60px;
+        width: 50px;
+        border-radius: 8px;
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
+        background-color: rgb(244, 243, 243);
+        display: grid;
+        place-items: center;
+
+        a:hover {
+            background-color: $main-color;
+        }
+
+        svg {
+            font-size: 35px;
+            font-weight: 100 !important;
+        }
+    }
+
+    input {
+        @include tablet {
+            width: 150px;
+            font-size: 12px;
+        }
+
+        background-color: rgb(244, 243, 243);
+        border: 0;
+        border-radius: 8px;
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
+        font-size: 18px;
+        padding: 15px;
+        height: 60px;
+        width: 100%;
+        color: $main-color;
+    }
+
+    input:focus {
+        outline: none;
+    }
+
+    &-data::-webkit-scrollbar {
+        display: none;
+    }
+
+    .active {
+        transform: scaleY(1);
+        transition: transform 0.5s ease;
+    }
+
+    &-data {
+        z-index: 101 !important;
+        position: absolute;
+        margin-top: 10px;
+        margin-left: 2px;
+        width: 300px;
+        height: fit-content;
+        max-height: 400px;
+        background-color: rgb(244, 243, 243);
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        overflow: hidden;
+        overflow-y: auto;
+        border-radius: 8px;
+        transform: scaleY(0);
+        transition: transform 0.5s ease;
+        padding: 5px;
+        &-item {
+            width: 100%;
+            height: fit-content;
+            display: flex;
+            align-items: center;
+            color: black;
+            font-size: 1.25rem;
+
+            p {
+                display: block;
+                padding: 0.5rem;
+                height: 100%;
+                margin: 0;
+            }
+        }
+
+        &-item:hover {
+            border-radius: 5px;
+            background-color: $main-color;
+            color: white;
+        }
+    }
+
+    @include mobile {
+        visibility: hidden;
+    }
+}
+
+#clearBtn {
+    cursor: pointer;
+}
