@@ -11,6 +11,7 @@ const App = () => {
     <CopilotKit
       runtimeUrl={process.env.REACT_APP_COPILOT_RUNTIME}
       agent="assistant-chatbot"
+      showDevConsole={false}
     >
       <BrowserRouter>
         <Routes>

@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "@copilotkit/runtime": "^1.10.6",
-    "class-validator": "^0.14.2"
-  }
-}

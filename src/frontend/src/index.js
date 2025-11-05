@@ -8,6 +8,7 @@ import App from './App';
 
 /* import './css/header.css' */
 /* import './css/footer.css' */
+import './index.css'
 import './sass/index.scss'
 import './assets/boxicons-2.0.7/css/boxicons.min.css'
 const root = ReactDOM.createRoot(document.getElementById('root'));

@@ -4,9 +4,9 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-copilotkit = "0.1.60"
-langchain = "0.3.21"
-langgraph = ">=0.6.5"
+copilotkit = "0.1.70"
+langchain = ">=0.3.0"
+langgraph = ">=0.3.25,<1.1.0"
 langsmith = ">=0.3.45"
 openai = ">=1.68.2"
 fastapi = ">=0.115.5"

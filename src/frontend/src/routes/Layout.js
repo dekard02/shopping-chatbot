@@ -24,7 +24,7 @@ import { getAllSale } from '../redux/product/saleSlice';
 import { getAllCategory } from '../redux/category/categorySlice';
 import { getAllProduct } from '../redux/product/productsSlice';
 import { CopilotSidebar } from '@copilotkit/react-ui';
-import { useFrontendTool } from '@copilotkit/react-core';
+import { useChatbotAssistant } from '../hooks/useChatbotAssistant';
 
 const Layout = () => {
   let dispatch = useDispatch();
@@ -42,26 +42,7 @@ const Layout = () => {
     }
   }, [user]);
 
-  useFrontendTool({
-    name: 'routing',
-    description:
-      'Chuyển hướng người dùng đến các trang khác nhau trong ứng dụng web thương mại điện tử dựa trên các yêu cầu của họ.',
-    parameters: [
-      {
-        name: 'path',
-        type: 'string',
-        description: `Đường dẫn URL của trang để điều hướng người dùng đến. Giá trị chỉ có thể là một trong các đường dẫn sau:
-        ["/", "/catalog", "/accessories", "/contact", "/cart", "/order", "/customer", "/policy/privacy", "/policy/terms", "/policy/refund", "/catalog/:slug"]
-          Ví dụ: 
-            Input: Hiện thông tin vỏ hàng
-            Output: /cart`,
-        required: true,
-      },
-    ],
-    handler: async ({ path }) => {
-      navigate(path);
-    },
-  });
+  useChatbotAssistant();
 
   return (
     <CopilotSidebar
@@ -73,6 +54,10 @@ const Layout = () => {
         title: 'Trợ lý',
         initial: 'Tôi có thể giúp gì cho bạn?',
       }}
+      suggestions={'auto'}
+      clickOutsideToClose={false}
+      onReloadMessages={() => {}}
+      onRegenerate={() => {}}
     >
       <React.Fragment>
         <Header />

@@ -1,0 +1,15 @@
+{
+  "name": "copilotkit-runtime",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@copilotkit/runtime": "^1.10.6",
+    "class-validator": "^0.14.2"
+  }
+}
