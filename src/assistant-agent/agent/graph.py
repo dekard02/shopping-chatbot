@@ -1,56 +1,33 @@
 import os
+from config import env
 from typing_extensions import Literal
-from langchain_core.messages import SystemMessage, AIMessage
+from langchain_core.messages import AIMessage
 from langchain_core.runnables import RunnableConfig
-from langchain.tools import tool, ToolRuntime
 from langgraph.graph import StateGraph, END
 from langgraph.types import Command
 from langgraph.prebuilt import ToolNode
+from langchain_openai import ChatOpenAI
 from copilotkit.langgraph import copilotkit_emit_state
+
 from agent.agent_state import AgentState
-from agent.utils import get_openai_model
+from agent.tools import products, policy
 from agent.prompt import SYSTEM_MESSAGE
-from langgraph.types import interrupt
-import asyncio
-
-
-@tool
-def get_weather(location: str):
-    """
-    Get the weather for a given location.
-    """
-    return f"The weather for {location} is 70 degrees."
-
-@tool
-async def query_products(query: str, runtime: ToolRuntime):
-    """
-    Tìm sản phẩm theo thông tin của khách hàng.
-    Response trả về chỉ cần nhắc đến tên của các sản phẩm
-    """
-    runtime.state["filter_spec"] = interrupt({"type": "filter_spec", "content": "Minh xin them thong tin nha"})
-
-    asyncio.sleep(3)
-    print("called query_products with query:", query)
-    products = [
-        {'id': 1, 'name': "Product A", 'price': 100, 'slug': 'that-lung-da-bo-y'},
-        {'id': 2, 'name': "Product B", 'price': 150, 'slug': 'o-nho-gon'},
-        {'id': 3, 'name': "Product C", 'price': 200, 'slug': 'that-lung-khoa-tron'},
-    ]
-
-    return products
 
 tools = [
-    get_weather,
-    query_products
+    products.query_products,
+    policy.query_policies
 ]
 
 async def chat_node(state: AgentState, config: RunnableConfig) -> Command[Literal["tool_node", "__end__"]]:
 
-    model_with_tools = get_openai_model().bind_tools(
+    model_with_tools = ChatOpenAI(model=env.OPENAI_MODEL,
+                                base_url=env.OPENAI_BASE_URL,
+                                api_key=env.OPENAI_API_KEY
+                                )\
+    .bind_tools(
         [
             *state["copilotkit"]["actions"],
-            get_weather,
-            query_products,
+            *tools
         ],
         parallel_tool_calls=False,
     )

@@ -5,6 +5,7 @@ from tqdm import tqdm
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_openai import OpenAIEmbeddings
+from langchain_pinecone import PineconeVectorStore
 
 from utils import create_index_if_not_exists
 
@@ -15,7 +16,7 @@ load_dotenv(dotenv_path=f"{script_dir}/.env")
 # ---------- CONFIGURATION ----------
 PINECONE_INDEX_NAME = "policy-pdf-embeddings"
 PDF_FILES = [
-    "" # TODO: change this to pdf url
+    "https://thaiviettrung.com/wp-content/uploads/2025/03/CHINH-SACH-TRA-HANG-HOAN-TIEN.pdf" # TODO: change this to pdf url
 ]
 
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
@@ -55,39 +56,24 @@ def chunk_documents(docs, chunk_size=1000, chunk_overlap=200):
     chunks = splitter.split_documents(docs)
     return chunks
 
-def upsert_to_pinecone(index, embedder, chunks):
-    for i in tqdm(range(0, len(chunks), 100)):
-        batch = chunks[i:i+100]
-        texts = [doc.page_content for doc in batch]
-        metas = [doc.metadata for doc in batch]
-        ids = [
-            f"{meta['url'].split('/')[-1]}-p{meta.get('page', 0)}-c{i+j}"
-            for j, meta in enumerate(metas)
-        ]
-        vectors = [
-            {
-                "id": ids[j],
-                "values": embedder.embed_query(texts[j]),
-                "metadata": metas[j]
-            }
-            for j in range(len(texts))
-        ]
-        index.upsert(vectors=vectors)
-
 if __name__ == "__main__":
     embedder = OpenAIEmbeddings(model="text-embedding-3-small",
                                 base_url=os.getenv("EMBEDDING_BASE_URL"),
                                 api_key=os.getenv("EMBEDDING_API_KEY")
                                 )    
 
-    index = create_index_if_not_exists(PINECONE_INDEX_NAME)
-
+    index = create_index_if_not_exists(PINECONE_INDEX_NAME, delete_old=True)
+    vectorstore = PineconeVectorStore(index_name=PINECONE_INDEX_NAME, 
+                                    embedding=embedder,
+                                    pinecone_api_key=PINECONE_API_KEY
+                                        )
     docs = load_all_pdfs(PDF_FILES)
     print(f"Loaded {len(docs)} pdf documents!")
 
     chunks = chunk_documents(docs)
     print(f"Splitted into {len(chunks)} chunks!")
 
-    upsert_to_pinecone(index, embedder, chunks)
-    print(f"✅ Upserted {len(chunks)} chunks of documents into index '{PINECONE_INDEX_NAME}'")
+    vectorstore.add_documents(documents=chunks)
+
+    print(f"✅ Added {len(chunks)} chunks of documents into index '{PINECONE_INDEX_NAME}'")
     print("Completed!!")

@@ -2,6 +2,8 @@ import os
 import pyodbc
 from langchain_openai import OpenAIEmbeddings
 from utils import create_index_if_not_exists
+from langchain_pinecone import PineconeVectorStore
+from langchain_core.documents import Document
 
 from dotenv import load_dotenv
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -36,9 +38,9 @@ def fetch_products():
     conn.close()
     return products
 
-def create_product_embedding(embedder, product: dict) -> dict:
+def product_to_text(product: dict) -> str:
     # Ignore image fields
-    text_to_embed = f"""
+    return f"""
         Title: {product.get('title')}
         Category: {product.get('categorySlug')}
         Gender: {product.get('gender', "unisex")}
@@ -49,22 +51,16 @@ def create_product_embedding(embedder, product: dict) -> dict:
         Description: {product.get('descriptions')}
         Sale: {product.get('sale')}
         """
-    embedding = embedder.embed_query(text_to_embed)
-    return embedding
 
-def upsert_products(index, embedder, products):
-    vectors = []
-    for p in products:
-        embedding = create_product_embedding(embedder, p)
-        vectors.append({
-            "id": p["id"],
-            "values": embedding,
-            "metadata": p  # full row as metadata
-        })
+def product_to_doc(product: dict) -> Document:
+    doc = Document(page_content=product_to_text(product=product))
+    doc.metadata = product
+    doc.id = product["id"]
+    return doc
 
-    # Batch upsert to Pinecone
-    index.upsert(vectors=vectors)
-
+def create_product_docs(products: list[dict]) -> list[Document]:
+    docs = [product_to_doc(p) for p in products]
+    return docs
 
 # 5️⃣ Main flow
 if __name__ == "__main__":
@@ -77,9 +73,17 @@ if __name__ == "__main__":
     print(f"Got {len(products)} from mssql!")
 
     print("Getting index...")
-    index = create_index_if_not_exists(PINECONE_INDEX_NAME)
-    print("Upsert into pinecone...")
-    upsert_products(index, embedder, products)
+    index = create_index_if_not_exists(PINECONE_INDEX_NAME, delete_old=True)
+    vectorstore = PineconeVectorStore(index_name=PINECONE_INDEX_NAME, 
+                                    embedding=embedder,
+                                    pinecone_api_key=os.getenv("PINECONE_API_KEY")
+                                        )
+    print("Creating product document...")
+    docs = create_product_docs(products=products)
 
-    print(f"✅ Upserted {len(products)} products to Pinecone index '{PINECONE_INDEX_NAME}'")
+    print("Adding product document into pinecone...")
+    vectorstore.add_documents(documents=docs)
+    # upsert_products(index, embedder, products)
+
+    print(f"✅ Add {len(products)} products to Pinecone index '{PINECONE_INDEX_NAME}'")
     print("Completed!")
