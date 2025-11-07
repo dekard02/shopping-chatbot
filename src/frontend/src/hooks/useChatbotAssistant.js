@@ -5,11 +5,11 @@ import {
   useLangGraphInterrupt,
 } from '@copilotkit/react-core';
 import { useNavigate } from 'react-router-dom';
+import { FiltersForm } from '../components/FilterForm';
+
 
 export const useChatbotAssistant = () => {
   const navigate = useNavigate();
-
-  // TODO: add thêm frontend tool khác, eg. thêm giỏ hàng, checkout bla bla bla, ...
 
   useFrontendTool(
     {
@@ -22,7 +22,7 @@ export const useChatbotAssistant = () => {
           type: 'string',
           description: `Đường dẫn URL của trang để điều hướng người dùng đến. Giá trị chỉ có thể là một trong các đường dẫn sau:
             ["/", "/catalog", "/accessories", "/contact", "/cart", "/order", "/customer", "/policy/privacy", "/policy/terms", "/policy/refund", "/catalog/:slug"]
-              Ví dụ: 
+              Ví dụ:
                 Input: Hiện thông tin giỏ hàng
                 Output: /cart`,
           required: true,
@@ -31,7 +31,7 @@ export const useChatbotAssistant = () => {
       handler: async ({ path }) => {
         navigate(path);
       },
-    },
+    }
     [navigate]
   );
 
@@ -102,40 +102,10 @@ export const useChatbotAssistant = () => {
     [navigate]
   );
 
-  useLangGraphInterrupt(
-    {
-      enabled: ({ eventValue }) => eventValue.type === 'filter_spec',
-      render: ({ event, resolve }) => (
-        // TODO: render 1 form hỏi thêm thông tin giới tính, màu sắc, ..., resolve/return json để filter ở pinecone
-        // set giới hạn số sản phẩm trả về
-        // price range + sex + size + color
-        <div className="bg-white shadow-md rounded-lg p-6 max-w-md mx-auto">
-          <p className="text-gray-800 text-lg mb-4">{event.content}</p>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              resolve(e.target.response.value);
-            }}
-            className="flex flex-col gap-3"
-          >
-            <input
-              type="text"
-              name="response"
-              placeholder="Enter your response"
-              className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <button
-              type="submit"
-              className="bg-blue-600 text-white rounded-md py-2 hover:bg-blue-700 transition"
-            >
-              Submit
-            </button>
-          </form>
-        </div>
-      ),
-    },
-    [navigate]
-  );
+  useLangGraphInterrupt({
+    enabled: ({eventValue}) => eventValue.type === 'filter_spec',
+    render: ({ event, resolve }) => <FiltersForm event={event} resolve={resolve} />,
+  }, [navigate]);
 
   useCoAgentStateRender({
     name: 'assistant-chatbot',
