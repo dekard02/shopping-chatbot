@@ -2,14 +2,18 @@ import {
   useCoAgentStateRender,
   useCopilotAction,
   useFrontendTool,
+  useHumanInTheLoop,
   useLangGraphInterrupt,
 } from '@copilotkit/react-core';
 import { useNavigate } from 'react-router-dom';
 import { FiltersForm } from '../components/FilterForm';
-
+import { useDispatch } from 'react-redux';
+import { addItem, removeItem } from '../redux/shopping-cart/cartItemsSlice';
+import { ProductDetailsForm } from '../components/ProductDetailsForm';
 
 export const useChatbotAssistant = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useFrontendTool(
     {
@@ -31,9 +35,110 @@ export const useChatbotAssistant = () => {
       handler: async ({ path }) => {
         navigate(path);
       },
-    }
+    },
     [navigate]
   );
+
+  // useFrontendTool({
+  //   name: 'add_to_cart',
+  //   description:
+  //     'Thêm sản phẩm vào giỏ hàng của người dùng dựa trên yêu cầu của họ. Công cụ này sẽ nhận các tham số như slug sản phẩm, số lượng, màu sắc, kích thước để thực hiện hành động thêm sản phẩm vào giỏ hàng.Nếu thông tin về màu sắc, kích thước hoặc số lượng không được cung cấp, hãy sử dụng công cụ askForProductDetails để hỏi người dùng về các chi tiết còn thiếu trước khi thêm sản phẩm vào giỏ hàng. Sau khi thêm sản phẩm thành công, công cụ sẽ thông báo cho người dùng biết rằng sản phẩm đã được thêm vào giỏ hàng. ',
+  //   parameters: [
+  //     {
+  //       name: 'slug',
+  //       type: 'string',
+  //       description: 'Slug của sản phẩm cần thêm vào giỏ hàng.',
+  //       required: true,
+  //     },
+  //     {
+  //       name: 'quantity',
+  //       type: 'number',
+  //       description: 'Số lượng sản phẩm cần thêm vào giỏ hàng.',
+  //       required: true,
+  //     },
+  //     {
+  //       name: 'color',
+  //       type: 'string',
+  //       description: 'Màu sắc của sản phẩm cần thêm vào giỏ hàng.Tự động dịch sang tiếng Việt',
+  //     },
+  //     {
+  //       name: 'size',
+  //       type: 'string',
+  //       description: 'Kích thước của sản phẩm cần thêm vào giỏ hàng.',
+  //       required: true,
+  //     }
+
+  //   ],
+  //   handler: async ({ slug, quantity, color, size, price }) => {
+  //     dispatch(addItem({
+  //       slug: slug,
+  //       color: color,
+  //       size: size,
+  //       quantity: quantity,
+  //       price: price
+  //     }))
+  //     // dispatch(setAlert({
+  //     //   message: "Thêm vào giỏ thành công",
+  //     //   type: "success"
+  //     // }))
+  //   },
+  //   render: ({ args, status }) => {
+  //     if (status === 'pending') {
+  //       return (
+  //         <div className="bg-[#667eea] text-white p-4 rounded-lg max-w-md">
+  //           <span className="animate-spin">⏳ Đang thêm sản phẩm vào giỏ hàng...</span>
+  //         </div>
+  //       );
+  //     } else if (status === 'complete') {
+  //       return (
+  //         <div className="bg-green-500 text-white p-4 rounded-lg max-w-md">
+  //           <span>✅ Sản phẩm đã được thêm vào giỏ hàng thành công!</span>
+  //         </div>
+  //       );
+  //     } else {
+  //       return null;
+  //     }
+  //   }
+  // }, [dispatch]);
+
+
+  // useFrontendTool(
+  //   {
+  //     name: 'remove_from_cart',
+  //     description:
+  //       'Xóa sản phẩm khỏi giỏ hàng của người dùng dựa trên yêu cầu của họ. Công cụ này sẽ nhận tham số slug sản phẩm để xác định sản phẩm cần xóa khỏi giỏ hàng. Sau khi xóa sản phẩm thành công, công cụ sẽ thông báo cho người dùng biết rằng sản phẩm đã được xóa khỏi giỏ hàng.',
+  //     parameters: [
+  //       {
+  //         name: 'slug',
+  //         type: 'string',
+  //         description: 'Slug của sản phẩm cần xóa khỏi giỏ hàng.',
+  //         required: true,
+  //       },
+  //     ],
+  //     handler: async ({ slug }) => {
+  //       dispatch(removeItem({
+  //         slug: slug
+  //       }))
+  //     },
+  //     render: ({ args, status }) => {
+  //       if (status === 'pending') {
+  //         return (
+  //           <div className=" bg-[#667eea] text-white p-4 rounded-lg max-w-md">
+  //             <span className="animate-spin">⏳ Đang xóa sản phẩm khỏi giỏ hàng...</span>
+  //           </div>
+  //         );
+  //       } else if (status === 'complete') {
+  //         return (
+  //           <div className="bg-green-500 text-white p-4 rounded-lg max-w-md">
+  //             <span>✅ Sản phẩm đã được xóa khỏi giỏ hàng thành công!</span>
+  //           </div>
+  //         );
+  //       } else {
+  //         return null;
+  //       }
+  //     },
+  //   }, [dispatch]
+  // );
 
   useCopilotAction(
     {
@@ -103,10 +208,39 @@ export const useChatbotAssistant = () => {
   );
 
   useLangGraphInterrupt({
-    enabled: ({eventValue}) => eventValue.type === 'filter_spec',
+    enabled: ({ eventValue }) => eventValue.type === 'filter_spec',
     render: ({ event, resolve }) => <FiltersForm event={event} resolve={resolve} />,
-  },[]);
+  }, []);
 
+  useHumanInTheLoop({
+    name: 'askForProductDetails',
+    description:
+      'Khi người dùng muốn thêm sản phẩm vào giỏ hàng nhưng thiếu thông tin cần thiết như màu sắc, kích thước hoặc số lượng, hãy sử dụng công cụ này để hỏi họ. Công cụ này sẽ hiển thị một biểu mẫu để người dùng điền vào các chi tiết còn thiếu.',
+    parameters: [
+      {
+        name: 'slug',
+        type: 'string',
+        description: 'Slug của sản phẩm mà người dùng muốn thêm vào giỏ hàng.',
+        required: true,
+      },
+    ],
+    render: ({ args, status, respond, result }) => {
+
+      console.log(status, respond, args, result);
+      if (status === 'executing' && respond) {
+        return <ProductDetailsForm initialArgs={args} onSubmited={respond} />;
+      }
+      if (status === 'complete' && result) {
+          
+          return (<div className="bg-green-500 text-white p-4 rounded-lg max-w-md">
+            <span>✅ Sản phẩm đã được thêm vào giỏ hàng thành công!</span>
+          </div>
+          );
+      }
+      return null;
+    },
+
+  }, []);
   useCoAgentStateRender({
     name: 'assistant-chatbot',
     render: ({ state }) => {

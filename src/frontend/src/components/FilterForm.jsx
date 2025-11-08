@@ -91,7 +91,7 @@ export const FiltersForm = ({ event, resolve }) => {
         </div>
 
         {/* Size */}
-        <div>
+        {/* <div>
           <label htmlFor="size" className="block text-sm font-medium text-gray-700">
             Size
           </label>
@@ -109,7 +109,7 @@ export const FiltersForm = ({ event, resolve }) => {
             <option value="XL">XL</option>
             <option value="XXL">XXL</option>
           </select>
-        </div>
+        </div> */}
 
         <button
           type="submit"

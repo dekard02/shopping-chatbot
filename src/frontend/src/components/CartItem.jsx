@@ -27,10 +27,11 @@ const CartItem = props => {
     const removeCartitem = (obj) => {
         dispatch(removeItem(item))
     }
-    return (
-        <div className='cart-item'>
+   
+    return item ? (
+  <div className='cart-item'>
             <div className="cart-item-image">
-                <img src={require(`../assets/${item.product.image1}`)} alt='' />
+                <img src={item.product?.image1? require(`../assets/${item.product.image1}`): ""} alt='' />
             </div>
             <div className="cart-item-info">
                 <div className="cart-item-info-name">
@@ -69,7 +70,7 @@ const CartItem = props => {
                 </div>
             </div>
         </div>
-    )
+    ) : "Error";
 }
 
 CartItem.propTypes = {
