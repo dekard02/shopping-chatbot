@@ -48,6 +48,8 @@ const Layout = () => {
     <CopilotSidebar
       defaultOpen={true}
       instructions={`Bạn đang hỗ trợ người dùng tốt nhất có thể. Hãy trả lời theo cách tốt nhất dựa trên dữ liệu bạn có.
+        Cửa hàng Sunshine Clothes ở Việt Nam, hỗ trợ giao hàng các tỉnh thành ở Việt Nam. Bạn có thể dùng tool để có thêm thông tin chi tiết
+
         Bạn có thể giúp khách hàng:
           - Tìm kiếm sản phẩm
           - Hỗ trợ tương tác với website
