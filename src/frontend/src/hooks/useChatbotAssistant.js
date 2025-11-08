@@ -7,33 +7,29 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { FiltersForm } from '../components/FilterForm';
 
-
 export const useChatbotAssistant = () => {
   const navigate = useNavigate();
 
-  useFrontendTool(
-    {
-      name: 'routing',
-      description:
-        'Chuyển hướng người dùng đến các trang khác nhau trong ứng dụng web thương mại điện tử dựa trên các yêu cầu của họ. Và thông báo đã chuyển hướng thành công.',
-      parameters: [
-        {
-          name: 'path',
-          type: 'string',
-          description: `Đường dẫn URL của trang để điều hướng người dùng đến. Giá trị chỉ có thể là một trong các đường dẫn sau:
+  useFrontendTool({
+    name: 'routing',
+    description:
+      'Chuyển hướng người dùng đến các trang khác nhau trong ứng dụng web thương mại điện tử dựa trên các yêu cầu của họ. Và thông báo đã chuyển hướng thành công.',
+    parameters: [
+      {
+        name: 'path',
+        type: 'string',
+        description: `Đường dẫn URL của trang để điều hướng người dùng đến. Giá trị chỉ có thể là một trong các đường dẫn sau:
             ["/", "/catalog", "/accessories", "/contact", "/cart", "/order", "/customer", "/policy/privacy", "/policy/terms", "/policy/refund", "/catalog/:slug"]
               Ví dụ:
                 Input: Hiện thông tin giỏ hàng
                 Output: /cart`,
-          required: true,
-        },
-      ],
-      handler: async ({ path }) => {
-        navigate(path);
+        required: true,
       },
-    }
-    [navigate]
-  );
+    ],
+    handler: async ({ path }) => {
+      navigate(path);
+    },
+  });
 
   useCopilotAction(
     {
@@ -102,10 +98,15 @@ export const useChatbotAssistant = () => {
     [navigate]
   );
 
-  useLangGraphInterrupt({
-    enabled: ({eventValue}) => eventValue.type === 'filter_spec',
-    render: ({ event, resolve }) => <FiltersForm event={event} resolve={resolve} />,
-  },[]);
+  useLangGraphInterrupt(
+    {
+      enabled: ({ eventValue }) => eventValue.type === 'filter_spec',
+      render: ({ event, resolve }) => (
+        <FiltersForm event={event} resolve={resolve} />
+      ),
+    },
+    []
+  );
 
   useCoAgentStateRender({
     name: 'assistant-chatbot',
