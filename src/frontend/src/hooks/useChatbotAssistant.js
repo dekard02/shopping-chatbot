@@ -105,7 +105,7 @@ export const useChatbotAssistant = () => {
   useLangGraphInterrupt({
     enabled: ({eventValue}) => eventValue.type === 'filter_spec',
     render: ({ event, resolve }) => <FiltersForm event={event} resolve={resolve} />,
-  }, [navigate]);
+  },[]);
 
   useCoAgentStateRender({
     name: 'assistant-chatbot',
