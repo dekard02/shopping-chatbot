@@ -1,7 +1,7 @@
 # 🛍️ Shopping Chatbot
 
 > ⚠️ This is a small demo project for my class — it may contain bugs and incomplete features.  
-> This project builds upon a web project from [PLACEHOLDER_LINK], enhancing it with an AI-powered chatbot.
+> This project builds upon a web project from [Clothes Webshop](https://github.com/yang020501/UIT-SE347-WEB), enhancing it with an AI-powered chatbot.
 
 ---
 
@@ -29,18 +29,18 @@ It can assist users with:
 
 ## 🧰 Project Structure
 
+```
 shopping-chatbot/
 ├── assistant-agent/ # Python LangGraph chatbot agent served with FastAPI
 ├── backend/ # Spring Boot backend service
 ├── copilot-runtime/ # CopilotKit runtime for chat integration
 └── frontend/ # Web UI for the shopping chatbot
+```
 
 ---
 
 ## 👥 Members
 
-1.[dekard02](https://github.com/dekard02)
-
-2.[yang020501](https://github.com/yang020501)
-
-3.[levanchuongda](https://github.com/levanchuongda)
+1. [dekard02](https://github.com/dekard02)
+2. [yang020501](https://github.com/yang020501)
+3. [levanchuongda](https://github.com/levanchuongda)
