@@ -33,7 +33,7 @@ export const FiltersForm = ({ event, resolve }) => {
       )
     );
 
-    resolve(JSON.stringify(finalFilters));
+    resolve(finalFilters);
   };
   return (
     <div className="bg-white shadow-lg rounded-lg p-6 max-w-lg mx-auto">

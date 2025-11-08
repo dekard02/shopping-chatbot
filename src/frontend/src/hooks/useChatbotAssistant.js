@@ -29,15 +29,13 @@ export const useChatbotAssistant = () => {
               Ví dụ:
                 Input: Hiện thông tin giỏ hàng
                 Output: /cart`,
-          required: true,
-        },
-      ],
-      handler: async ({ path }) => {
-        navigate(path);
+        required: true,
       },
+    ],
+    handler: async ({ path }) => {
+      navigate(path);
     },
-    [navigate]
-  );
+  });
 
   // useFrontendTool({
   //   name: 'add_to_cart',
