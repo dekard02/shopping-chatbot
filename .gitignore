@@ -1,3 +1,5 @@
 node_modules
 .env
 .terraform*
+temp
+__pycache__
