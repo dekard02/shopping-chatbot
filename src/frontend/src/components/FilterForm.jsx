@@ -6,7 +6,7 @@ export const FiltersForm = ({ event, resolve }) => {
     size: '',
     minPrice: '',
     maxPrice: '',
-    limit: 7,
+    limit: 5,
   });
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -42,7 +42,10 @@ export const FiltersForm = ({ event, resolve }) => {
         {/* Price Range */}
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label htmlFor="minPrice" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="minPrice"
+              className="block text-sm font-medium text-gray-700"
+            >
               Min Price
             </label>
             <input
@@ -56,7 +59,10 @@ export const FiltersForm = ({ event, resolve }) => {
             />
           </div>
           <div>
-            <label htmlFor="maxPrice" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="maxPrice"
+              className="block text-sm font-medium text-gray-700"
+            >
               Max Price
             </label>
             <input
@@ -73,7 +79,10 @@ export const FiltersForm = ({ event, resolve }) => {
 
         {/* Sex  */}
         <div>
-          <label htmlFor="sex" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="sex"
+            className="block text-sm font-medium text-gray-700"
+          >
             Giới tính
           </label>
           <select
@@ -119,7 +128,7 @@ export const FiltersForm = ({ event, resolve }) => {
         </button>
       </form>
     </div>
-  )
+  );
 };
 
-export default FiltersForm
+export default FiltersForm;

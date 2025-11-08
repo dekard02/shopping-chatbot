@@ -47,9 +47,12 @@ const Layout = () => {
   return (
     <CopilotSidebar
       defaultOpen={true}
-      instructions={
-        'Bạn đang hỗ trợ người dùng tốt nhất có thể. Hãy trả lời theo cách tốt nhất dựa trên dữ liệu bạn có.'
-      }
+      instructions={`Bạn đang hỗ trợ người dùng tốt nhất có thể. Hãy trả lời theo cách tốt nhất dựa trên dữ liệu bạn có.
+        Bạn có thể giúp khách hàng:
+          - Tìm kiếm sản phẩm
+          - Hỗ trợ tương tác với website
+          - Trả lời các câu hỏi về cửa hàng: chính sách đổi trả, giao hàng, hoàn hàng,...
+        `}
       labels={{
         title: 'Trợ lý',
         initial: 'Tôi có thể giúp gì cho bạn?',
