@@ -84,14 +84,14 @@ export const FiltersForm = ({ event, resolve }) => {
             className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
           >
             <option value="">Tất cả</option>
-            <option value="male">Nam</option>
-            <option value="female">Nữ</option>
-            <option value="unisex">Unisex</option>
+            <option value="1">Nam</option>
+            <option value="0">Nữ</option>
+            <option value="">Unisex</option>
           </select>
         </div>
 
         {/* Size */}
-        <div>
+        {/* <div>
           <label htmlFor="size" className="block text-sm font-medium text-gray-700">
             Size
           </label>
@@ -109,7 +109,7 @@ export const FiltersForm = ({ event, resolve }) => {
             <option value="XL">XL</option>
             <option value="XXL">XXL</option>
           </select>
-        </div>
+        </div> */}
 
         <button
           type="submit"
